@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de ISR, IMSS, Aguinaldo y Prima Vacacional — CDMX 2026</title>
+  <meta
+    name="description"
+    content="Calculadora informativa de ISR, IMSS, aguinaldo y prima vacacional para trabajadores en CDMX, con base en el Anexo 8 de la RMF 2026 y la UMA vigente. No almacena datos."
+  />
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <h1>Calculadora de ISR e IMSS · CDMX</h1>
+      <p class="subtitle">
+        Estima tu ISR, IMSS, aguinaldo y prima vacacional a partir de tu salario bruto.
+      </p>
+      <span class="badge">Tarifas ISR 2026 · UMA 2026</span>
+    </header>
+
+    <main>
+      <!-- Calculadora 1: Sueldo e IMSS -->
+      <section id="calc-sueldo" class="card">
+        <h2>Sueldo neto e IMSS</h2>
+        <p class="card-desc">
+          Calcula el ISR mensual y la cuota obrero de IMSS a partir de tu salario bruto mensual.
+        </p>
+
+        <form id="form-sueldo">
+          <label>
+            Salario bruto mensual (MXN)
+            <input
+              type="number"
+              id="salarioBruto"
+              min="0"
+              step="0.01"
+              placeholder="15000.00"
+              required
+            />
+          </label>
+
+          <button type="submit">Calcular sueldo neto</button>
+        </form>
+
+        <div id="resultado-sueldo" class="resultado" hidden>
+          <div class="fila">
+            <span>Salario bruto mensual</span>
+            <span id="res-sueldo-bruto">$0.00</span>
+          </div>
+          <div class="fila">
+            <span>ISR mensual</span>
+            <span id="res-isr">$0.00</span>
+          </div>
+          <div class="fila">
+            <span>IMSS (cuota obrero)</span>
+            <span id="res-imss">$0.00</span>
+          </div>
+          <div class="fila total">
+            <span>Sueldo neto estimado</span>
+            <span id="res-neto">$0.00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calculadora 2: Aguinaldo y Prima Vacacional -->
+      <section id="calc-prestaciones" class="card">
+        <h2>Aguinaldo y prima vacacional</h2>
+        <p class="card-desc">
+          Cálculo independiente a partir de la fecha en que iniciaste tu relación laboral.
+        </p>
+
+        <form id="form-prestaciones">
+          <div class="form-row">
+            <label>
+              Salario bruto mensual (MXN)
+              <input type="number" id="salarioBruto2" min="0" step="0.01" placeholder="15000.00" required />
+            </label>
+            <label>
+              Fecha de inicio de la relación laboral
+              <input type="date" id="fechaIngreso" required />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Fecha de cálculo del aguinaldo
+              <input type="date" id="fechaCorte" required />
+            </label>
+            <label>
+              Días de aguinaldo que otorga la empresa
+              <input type="number" id="diasAguinaldo" min="1" step="1" value="15" required />
+            </label>
+          </div>
+          <p class="hint">Mínimo de ley: 15 días de aguinaldo (art. 87 LFT).</p>
+
+          <div class="form-row">
+            <label>
+              % de prima vacacional
+              <input type="number" id="pctPrima" min="1" step="0.01" value="25" required />
+            </label>
+            <label>
+              Días de vacaciones (sugeridos por antigüedad, editable)
+              <input type="number" id="diasVacaciones" min="0" step="0.5" value="0" required />
+            </label>
+          </div>
+          <p class="hint">Mínimo de ley: 25% de prima vacacional (art. 80 LFT).</p>
+
+          <button type="submit">Calcular aguinaldo y prima vacacional</button>
+        </form>
+
+        <div id="resultado-prestaciones" class="resultado" hidden>
+          <h3>Aguinaldo</h3>
+          <div class="fila">
+            <span>Días a pagar</span>
+            <span id="res-aguinaldo-dias">0</span>
+          </div>
+          <div class="fila">
+            <span>Monto bruto</span>
+            <span id="res-aguinaldo-bruto">$0.00</span>
+          </div>
+          <div class="fila">
+            <span>ISR retenido (estimado)</span>
+            <span id="res-aguinaldo-isr">$0.00</span>
+          </div>
+          <div class="fila total">
+            <span>Aguinaldo neto estimado</span>
+            <span id="res-aguinaldo-neto">$0.00</span>
+          </div>
+
+          <h3>Prima vacacional</h3>
+          <div class="fila">
+            <span>Días de vacaciones usados</span>
+            <span id="res-prima-dias">0</span>
+          </div>
+          <div class="fila">
+            <span>Monto bruto</span>
+            <span id="res-prima-bruto">$0.00</span>
+          </div>
+          <div class="fila">
+            <span>ISR retenido (estimado)</span>
+            <span id="res-prima-isr">$0.00</span>
+          </div>
+          <div class="fila total">
+            <span>Prima vacacional neta estimada</span>
+            <span id="res-prima-neto">$0.00</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <nav>
+        <a href="legal.html#privacidad">Aviso de Privacidad</a>
+        <a href="legal.html#terminos">Términos de Uso</a>
+        <a href="legal.html#metodologia">Metodología</a>
+      </nav>
+      <p>
+        Herramienta informativa, no constituye asesoría fiscal, legal ni laboral. Ningún dato
+        capturado se almacena ni se envía a ningún servidor.
+      </p>
+    </footer>
+  </div>
+
+  <script src="js/constants.js"></script>
+  <script src="js/isr.js"></script>
+  <script src="js/imss.js"></script>
+  <script src="js/prestaciones.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
