@@ -43,11 +43,28 @@ Todas las rutas del proyecto son relativas, por lo que funciona igual si el siti
 raíz de un dominio (`usuario.github.io`) o en una subruta de repositorio
 (`usuario.github.io/nombre-repo/`).
 
+## Pruebas unitarias
+
+Los módulos de cálculo (`js/constants.js`, `validaciones.js`, `isr.js`, `imss.js`,
+`prestaciones.js`) tienen una suite de pruebas sin dependencias externas, que ejecuta esos
+mismos archivos con el módulo `vm` de Node:
+
+```
+npm test
+```
+
+o directamente:
+
+```
+node tests/run-tests.js
+```
+
 ## Actualizar cifras fiscales en años futuros
 
-Las cifras que cambian cada año (tarifa de ISR, valor de la UMA) o que pueden reformarse (tasas de
-IMSS, días de vacaciones por antigüedad) están centralizadas en `js/constants.js`. Actualízalas ahí
-cuando el SAT, el INEGI o el IMSS publiquen nuevos valores.
+Las cifras que cambian cada año (tarifa de ISR, valor de la UMA, salario mínimo) o que pueden
+reformarse (tasas de IMSS, días de vacaciones por antigüedad) están centralizadas en
+`js/constants.js`. Actualízalas ahí cuando el SAT, el INEGI, el IMSS o la CONASAMI publiquen nuevos
+valores, y vuelve a correr `npm test` para confirmar que nada se rompió.
 
 ## Aviso
 

@@ -1,0 +1,8 @@
+{
+  "name": "calculadora-isr-cdmx",
+  "private": true,
+  "description": "Calculadora informativa de ISR, IMSS, aguinaldo y prima vacacional (CDMX). Sitio estático, sin dependencias de build.",
+  "scripts": {
+    "test": "node tests/run-tests.js"
+  }
+}

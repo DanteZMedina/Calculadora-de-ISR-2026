@@ -50,9 +50,12 @@
               required
             />
           </label>
+          <p class="hint">Mínimo: salario mínimo general vigente (CONASAMI 2026).</p>
 
           <button type="submit">Calcular sueldo neto</button>
         </form>
+
+        <p id="error-sueldo" class="error" role="alert" hidden></p>
 
         <div id="resultado-sueldo" class="resultado" hidden>
           <div class="fila">
@@ -92,6 +95,7 @@
               <input type="date" id="fechaIngreso" required />
             </label>
           </div>
+          <p class="hint">Mínimo: salario mínimo general vigente (CONASAMI 2026).</p>
 
           <div class="form-row">
             <label>
@@ -100,7 +104,7 @@
             </label>
             <label>
               Días de aguinaldo que otorga la empresa
-              <input type="number" id="diasAguinaldo" min="1" step="1" value="15" required />
+              <input type="number" id="diasAguinaldo" min="15" step="1" value="15" required />
             </label>
           </div>
           <p class="hint">Mínimo de ley: 15 días de aguinaldo (art. 87 LFT).</p>
@@ -108,7 +112,7 @@
           <div class="form-row">
             <label>
               % de prima vacacional
-              <input type="number" id="pctPrima" min="1" step="0.01" value="25" required />
+              <input type="number" id="pctPrima" min="25" step="0.01" value="25" required />
             </label>
             <label>
               Días de vacaciones (sugeridos por antigüedad, editable)
@@ -119,6 +123,8 @@
 
           <button type="submit">Calcular aguinaldo y prima vacacional</button>
         </form>
+
+        <p id="error-prestaciones" class="error" role="alert" hidden></p>
 
         <div id="resultado-prestaciones" class="resultado" hidden>
           <h3>Aguinaldo</h3>
@@ -174,6 +180,7 @@
   </div>
 
   <script src="js/constants.js"></script>
+  <script src="js/validaciones.js"></script>
   <script src="js/isr.js"></script>
   <script src="js/imss.js"></script>
   <script src="js/prestaciones.js"></script>

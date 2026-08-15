@@ -11,13 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const formSueldo = document.getElementById('form-sueldo');
   const resultadoSueldo = document.getElementById('resultado-sueldo');
+  const salarioBrutoInput = document.getElementById('salarioBruto');
+  const errorSueldo = document.getElementById('error-sueldo');
+
+  // Fuente única de verdad para el mínimo permitido: SALARIO_MINIMO_2026 (js/constants.js).
+  salarioBrutoInput.min = SALARIO_MINIMO_2026.mensual.toFixed(2);
+
+  function mostrarErrorSueldo(mensaje) {
+    errorSueldo.textContent = mensaje;
+    errorSueldo.hidden = false;
+    resultadoSueldo.hidden = true;
+  }
 
   formSueldo.addEventListener('submit', (evento) => {
     evento.preventDefault();
 
-    const salarioBruto = parseFloat(document.getElementById('salarioBruto').value);
-    if (!(salarioBruto > 0)) return;
+    const validacion = validarSalarioBruto(salarioBrutoInput.value);
+    if (!validacion.valido) {
+      mostrarErrorSueldo(validacion.mensaje);
+      return;
+    }
+    errorSueldo.hidden = true;
 
+    const salarioBruto = validacion.salario;
     const isr = calcularISR(salarioBruto);
     const salarioDiario = salarioBruto / 30;
     const imss = calcularCuotaObreroIMSS(salarioDiario);
@@ -41,10 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const fechaIngresoInput = document.getElementById('fechaIngreso');
   const fechaCorteInput = document.getElementById('fechaCorte');
   const diasVacacionesInput = document.getElementById('diasVacaciones');
+  const salarioBruto2Input = document.getElementById('salarioBruto2');
+  const errorPrestaciones = document.getElementById('error-prestaciones');
 
   // Valores por defecto: corte al 31 de diciembre del año en curso.
   fechaCorteInput.value = `${hoy.getFullYear()}-12-31`;
   fechaIngresoInput.max = hoy.toISOString().slice(0, 10);
+  salarioBruto2Input.min = SALARIO_MINIMO_2026.mensual.toFixed(2);
+
+  function mostrarErrorPrestaciones(mensaje) {
+    errorPrestaciones.textContent = mensaje;
+    errorPrestaciones.hidden = false;
+    resultadoPrestaciones.hidden = true;
+  }
 
   function sugerirDiasVacaciones() {
     if (!fechaIngresoInput.value) return;
@@ -57,21 +82,25 @@ document.addEventListener('DOMContentLoaded', () => {
   formPrestaciones.addEventListener('submit', (evento) => {
     evento.preventDefault();
 
-    const salarioBruto = parseFloat(document.getElementById('salarioBruto2').value);
+    const validacion = validarSalarioBruto(salarioBruto2Input.value);
+    if (!validacion.valido) {
+      mostrarErrorPrestaciones(validacion.mensaje);
+      return;
+    }
+
     const fechaIngreso = new Date(fechaIngresoInput.value + 'T00:00:00');
     const fechaCorte = new Date(fechaCorteInput.value + 'T00:00:00');
     const diasAguinaldo = parseFloat(document.getElementById('diasAguinaldo').value) || 0;
     const pctPrima = parseFloat(document.getElementById('pctPrima').value) || 0;
     const diasVacaciones = parseFloat(diasVacacionesInput.value) || 0;
 
-    if (
-      !(salarioBruto > 0) ||
-      isNaN(fechaIngreso.getTime()) ||
-      isNaN(fechaCorte.getTime())
-    ) {
+    if (isNaN(fechaIngreso.getTime()) || isNaN(fechaCorte.getTime())) {
+      mostrarErrorPrestaciones('Ingresa fechas válidas.');
       return;
     }
+    errorPrestaciones.hidden = true;
 
+    const salarioBruto = validacion.salario;
     const salarioDiario = salarioBruto / 30;
     const tasaEfectiva = calcularTasaEfectiva(salarioBruto);
 

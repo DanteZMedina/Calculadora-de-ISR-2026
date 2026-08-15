@@ -43,6 +43,18 @@ const EYM_UMBRAL_UMA = 3;  // Umbral a partir del cual aplica el excedente de Ey
 const EXENCION_AGUINALDO_UMA = 30;
 const EXENCION_PRIMA_VACACIONAL_UMA = 15;
 
+/*
+ * Salario mínimo general vigente (CDMX / "resto del país"), CONASAMI, a partir del
+ * 1 de enero de 2026: $315.04 MXN diarios. La Zona Libre de la Frontera Norte tiene un
+ * monto distinto y no aplica aquí. Este valor se revisa cada año (normalmente en
+ * diciembre, con vigencia desde el 1 de enero siguiente); actualízalo cuando CONASAMI
+ * publique un nuevo decreto.
+ */
+const SALARIO_MINIMO_2026 = {
+  diario: 315.04,
+  mensual: 315.04 * 30, // Usa la misma convención de 30 días que el resto de la calculadora.
+};
+
 /** Días de vacaciones según antigüedad (años completos), art. 76 LFT vigente desde 2023. */
 function diasVacacionesPorAntiguedad(aniosCompletos) {
   if (aniosCompletos < 1) return 0;
